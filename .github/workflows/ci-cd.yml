@@ -1,3 +1,4 @@
+---
 name: PHP CI/CD Pipeline
 
 on:
@@ -10,20 +11,30 @@ jobs:
   steps:
    - name: Checkout code
      uses: actions/checkout@v3
-		  
+
    - name: Set up PHP
      uses: shivammathur/setup-php@v2
      with:
       php-version: '8.2'
-			
+
    - name: Install dependencies
      run: |
       composer install
 
-   - name: Run PHPUnit tests
+   - name: Run PHPUnit tests with reports
      run: |
-      ./vendor/bin/phpunit tests
-		   
+      vendor/bin/phpunit \
+       --log-junit junit.xml \
+       --coverage-html coverage/ \
+       --testdox-html testdox.html
+#      OR ./vendor/bin/phpunit tests
+   - name: Upload coverage report
+     uses: actions/upload-artifact@v3
+     with:
+      name: coverage-report
+      path: coverage/
+
+
 deploy:
  needs: test
  runs-on: ubuntu-latest
