@@ -23,16 +23,7 @@ jobs:
 
    - name: Run PHPUnit tests with reports
      run: |
-      vendor/bin/phpunit \
-       --log-junit junit.xml \
-       --coverage-html coverage/ \
-       --testdox-html testdox.html
-#      OR ./vendor/bin/phpunit tests
-   - name: Upload coverage report
-     uses: actions/upload-artifact@v3
-     with:
-      name: coverage-report
-      path: coverage/
+      ./vendor/bin/phpunit
 
 
 deploy:

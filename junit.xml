@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuites>
+  <testsuite name="/home/administrator@internal.systematicdefence.tech/GitProjects/my-php-app/phpunit.xml" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.001360">
+    <testsuite name="Unit" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.001360">
+      <testsuite name="ExampleTest" file="/home/administrator@internal.systematicdefence.tech/GitProjects/my-php-app/tests/ExampleTest.php" tests="1" assertions="1" errors="0" failures="0" skipped="0" time="0.001360">
+        <testcase name="testGreet" file="/home/administrator@internal.systematicdefence.tech/GitProjects/my-php-app/tests/ExampleTest.php" line="6" class="ExampleTest" classname="ExampleTest" assertions="1" time="0.001360"/>
+      </testsuite>
+    </testsuite>
+  </testsuite>
+</testsuites>
