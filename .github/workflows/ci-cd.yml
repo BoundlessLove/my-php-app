@@ -4,6 +4,13 @@ name: PHP CI/CD Pipeline
 on:
  push:
   branches: [main]
+ workflow_dispatch:
+  inputs:
+   environment:
+    description: 'Target deployment environment'
+    required: false
+    default: 'staging'
+    type: string    
 
 jobs:
  test:
@@ -32,6 +39,11 @@ jobs:
   needs: test
   runs-on: ubuntu-latest
   steps:
+   - name: Set deployment environment
+     run: |
+      echo "TARGET_ENV=${{ github.event.inputs.environment || 'staging' }}" >> $GITHUB_ENV
+      #     
+     
    - name: Deploy to FastComet via SSH
      uses: appleboy/ssh-action@v0.1.10
      with:
@@ -39,5 +51,23 @@ jobs:
       username: ${{ secrets.FASTCOMET_USER }}
       key: ${{ secrets.FASTCOMET_SSH_KEY }}
       script: |
-       cd /home5/systema1/devsecops.systematicdefence.tech/
-       git pull origin main
+       
+       if[ "$TARGET_ENV" = "production"]; then
+        echo "Running production deployment tasks..."
+        # Add production-specific commands here
+        cd /home5/systema1/devsecops.systematicdefence.tech/
+        git pull origin main
+       elif [ "$TARGET_ENV"= "staging"]; then
+        echo "Running staging deployment tasks..."
+        # Add staging-specific commands here
+        cd /home5/systema1/testapiserver.systematicdefence.tech/
+        git pull origin main
+       elif [ "$TARGET_ENV"= "dev" ]; then
+        echo "Running dev deployment tasks..."
+        # Add dev-specific commands here
+       else
+        echo "Unknown environment: $TARGET_ENV"
+        exit 1
+       fi
+        
+		
