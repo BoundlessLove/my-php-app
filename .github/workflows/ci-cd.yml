@@ -41,19 +41,14 @@ jobs:
   steps:
    - name: Set deployment environment
      run: |
-      # When var supplied manually, if no environment variable input at runtime,
-      # use Staging, else Prod.
       if [ -z "${{ github.event.inputs.environment }}" ]; then
        echo "TARGET_ENV=staging" >> $GITHUB_ENV
       else
        echo "TARGET_ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
       fi
-      # This is only for when yaml is run with github workflow,
-      # i.e. inputs.environment is empty string.
-      if [ -z "$TARGET_ENV" ]; then
-       echo "TARGET_ENV is not set. Defaulting to staging."
-       TARGET_ENV="staging"
-      fi
+      # Above is when var supplied manually, if no runtimve env var input,
+      # use Staging, else Prod.
+
 
    - name: Deploy to FastComet via SSH
      uses: appleboy/ssh-action@v0.1.10
@@ -62,6 +57,12 @@ jobs:
       username: ${{ secrets.FASTCOMET_USER }}
       key: ${{ secrets.FASTCOMET_SSH_KEY }}
       script: |
+       if [ -z "$TARGET_ENV" ]; then
+        echo "TARGET_ENV is not set. Defaulting to staging."
+        TARGET_ENV="staging"
+       fi
+        # Above is only for when yaml is run with github workflow,
+        # i.e. inputs.environment is empty string.
        if [ "$TARGET_ENV" = "production" ]; then
         echo "Running production deployment tasks..."
         # Add production-specific commands here
