@@ -10,7 +10,7 @@ on:
     description: 'Target deployment environment'
     required: false
     default: 'staging'
-    type: string    
+    type: string
 
 jobs:
  test:
@@ -41,16 +41,20 @@ jobs:
   steps:
    - name: Set deployment environment
      run: |
-      echo "TARGET_ENV=${{ github.event.inputs.environment || 'staging' }}" >> $GITHUB_ENV
-      #     
-     
+      if [ -z "${{ github.event.inputs.environment }}" ]; then
+       echo "TARGET_ENV=staging" >> $GITHUB_ENV
+      else
+       echo "TARGET_ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+      fi
+      # if no environment variable input at runtime, use Staging, else Prod.
+
    - name: Deploy to FastComet via SSH
      uses: appleboy/ssh-action@v0.1.10
      with:
       host: ${{ secrets.FASTCOMET_HOST }}
       username: ${{ secrets.FASTCOMET_USER }}
       key: ${{ secrets.FASTCOMET_SSH_KEY }}
-      run: |
+      script: |
        if[ "$TARGET_ENV" = "production"]; then
         echo "Running production deployment tasks..."
         # Add production-specific commands here
@@ -68,5 +72,3 @@ jobs:
         echo "Unknown environment: $TARGET_ENV"
         exit 1
        fi
-        
-		
