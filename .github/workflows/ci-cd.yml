@@ -50,8 +50,7 @@ jobs:
       host: ${{ secrets.FASTCOMET_HOST }}
       username: ${{ secrets.FASTCOMET_USER }}
       key: ${{ secrets.FASTCOMET_SSH_KEY }}
-      script: |
-       
+      run: |
        if[ "$TARGET_ENV" = "production"]; then
         echo "Running production deployment tasks..."
         # Add production-specific commands here
