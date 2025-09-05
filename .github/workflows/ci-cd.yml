@@ -41,12 +41,19 @@ jobs:
   steps:
    - name: Set deployment environment
      run: |
+      # When var supplied manually, if no environment variable input at runtime,
+      # use Staging, else Prod.
       if [ -z "${{ github.event.inputs.environment }}" ]; then
        echo "TARGET_ENV=staging" >> $GITHUB_ENV
       else
        echo "TARGET_ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
       fi
-      # if no environment variable input at runtime, use Staging, else Prod.
+      # This is only for when yaml is run with github workflow,
+      # i.e. inputs.environment is empty string.
+      if [ -z "$TARGET_ENV" ]; then
+       echo "TARGET_ENV is not set. Defaulting to staging."
+       TARGET_ENV="staging"
+      fi
 
    - name: Deploy to FastComet via SSH
      uses: appleboy/ssh-action@v0.1.10
@@ -60,12 +67,12 @@ jobs:
         # Add production-specific commands here
         cd /home5/systema1/devsecops.systematicdefence.tech/
         git pull origin main
-       elif [ "$TARGET_ENV"= "staging" ]; then
+       elif [ "$TARGET_ENV" = "staging" ]; then
         echo "Running staging deployment tasks..."
         # Add staging-specific commands here
         cd /home5/systema1/testapiserver.systematicdefence.tech/
         git pull origin main
-       elif [ "$TARGET_ENV"= "dev" ]; then
+       elif [ "$TARGET_ENV" = "dev" ]; then
         echo "Running dev deployment tasks..."
         # Add dev-specific commands here
        else
