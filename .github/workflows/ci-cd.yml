@@ -21,6 +21,10 @@ jobs:
      run: |
       composer install
 
+   - name: Run Composer Security Audit
+     run: |
+      composer audit --no-interaction --no-dev
+
    - name: Run PHPUnit tests with reports
      run: |
       ./vendor/bin/phpunit
