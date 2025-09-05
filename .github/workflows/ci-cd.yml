@@ -55,12 +55,12 @@ jobs:
       username: ${{ secrets.FASTCOMET_USER }}
       key: ${{ secrets.FASTCOMET_SSH_KEY }}
       script: |
-       if[ "$TARGET_ENV" = "production"]; then
+       if [ "$TARGET_ENV" = "production" ]; then
         echo "Running production deployment tasks..."
         # Add production-specific commands here
         cd /home5/systema1/devsecops.systematicdefence.tech/
         git pull origin main
-       elif [ "$TARGET_ENV"= "staging"]; then
+       elif [ "$TARGET_ENV"= "staging" ]; then
         echo "Running staging deployment tasks..."
         # Add staging-specific commands here
         cd /home5/systema1/testapiserver.systematicdefence.tech/
