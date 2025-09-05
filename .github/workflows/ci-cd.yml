@@ -24,18 +24,16 @@ jobs:
    - name: Run PHPUnit tests with reports
      run: |
       ./vendor/bin/phpunit
-
-
-deploy:
- needs: test
- runs-on: ubuntu-latest
- steps:
-  - name: Deploy to FastComet via SSH
-    uses: appleboy/ssh-action@v0.1.10
-    with:
-     host: ${{ secrets.FASTCOMET_HOST }}
-     username: ${{ secrets.FASTCOMET_USER }}
-     key: ${{ secrets.FASTCOMET_SSH_KEY }}
-     script: |
-      cd /home5/systema1/devsecops.systematicdefence.tech/
-      git pull origin main
+ deploy:
+  needs: test
+  runs-on: ubuntu-latest
+  steps:
+   - name: Deploy to FastComet via SSH
+     uses: appleboy/ssh-action@v0.1.10
+     with:
+      host: ${{ secrets.FASTCOMET_HOST }}
+      username: ${{ secrets.FASTCOMET_USER }}
+      key: ${{ secrets.FASTCOMET_SSH_KEY }}
+      script: |
+       cd /home5/systema1/devsecops.systematicdefence.tech/
+       git pull origin main
