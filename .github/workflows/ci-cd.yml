@@ -58,8 +58,10 @@ jobs:
       host: ${{ secrets.FASTCOMET_HOST }}
       username: ${{ secrets.FASTCOMET_USER }}
       key: ${{ secrets.FASTCOMET_SSH_KEY }}
-      envs: TARGET_ENV
+      envs: TARGET_ENV,FASTCOMET_USER
       script: |
+       echo "FASTCOMET_USER is: $FASTCOMET_USER"
+       echo "TARGET_ENV is: $TARGET_ENV"
        if [ -z "$TARGET_ENV" ]; then
         echo "TARGET_ENV is not set. Defaulting to staging."
         TARGET_ENV="staging"
@@ -83,3 +85,6 @@ jobs:
         echo "Unknown environment: $TARGET_ENV"
         exit 1
        fi
+     env:
+      TARGET_ENV: ${{ env.TARGET_ENV }}
+      FASTCOMET_USER: ${{ secrets.FASTCOMET_USER }}
