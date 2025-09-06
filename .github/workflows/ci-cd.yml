@@ -42,7 +42,7 @@ jobs:
    - name: Set deployment environment
      run: |
       TARGET_ENV=${{ github.event.inputs.environment }}
-      if [[ -n "$TARGET_ENV" && "$TARGET_ENV" == "staging" ]]; then
+      if [[ -z "$TARGET_ENV" || "$TARGET_ENV" == "staging" ]]; then
       #if [ -z "${{ github.event.inputs.environment }}" ]; then
        echo "TARGET_ENV=staging" >> $GITHUB_ENV
       else
@@ -62,10 +62,10 @@ jobs:
       script: |
        echo "FASTCOMET_USER is: $FASTCOMET_USER"
        echo "TARGET_ENV is: $TARGET_ENV"
-       if [ -z "$TARGET_ENV" ]; then
-        echo "TARGET_ENV is not set. Defaulting to staging."
-        TARGET_ENV="staging"
-       fi
+       #if [ -z "$TARGET_ENV" ]; then
+        #echo "TARGET_ENV is not set. Defaulting to staging."
+        #TARGET_ENV="staging"
+       #fi
         # Above is only for when yaml is run with github workflow,
         # i.e. inputs.environment is empty string.
        if [ "$TARGET_ENV" = "production" ]; then
