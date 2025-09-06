@@ -41,10 +41,12 @@ jobs:
   steps:
    - name: Set deployment environment
      run: |
-      if [ -z "${{ github.event.inputs.environment }}" ]; then
+      TARGET_ENV=${{ github.event.inputs.environment }}
+      if [[ -n "$TARGET_ENV" && "$TARGET_ENV" == "staging" ]]; then
+      #if [ -z "${{ github.event.inputs.environment }}" && ]; then
        echo "TARGET_ENV=staging" >> $GITHUB_ENV
       else
-       echo "TARGET_ENV=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+       echo "TARGET_ENV=production" >> $GITHUB_ENV
       fi
       # Above is when var supplied manually, if no runtimve env var input,
       # use Staging, else Prod.
