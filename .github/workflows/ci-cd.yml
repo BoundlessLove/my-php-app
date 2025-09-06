@@ -69,12 +69,12 @@ jobs:
        if [ "$TARGET_ENV" = "production" ]; then
         echo "Running production deployment tasks..."
         # Add production-specific commands here
-        cd /home5/$username/devsecops.systematicdefence.tech/
+        cd /home5/$FASTCOMET_USER/devsecops.systematicdefence.tech/
         git pull origin main
        elif [ "$TARGET_ENV" = "staging" ]; then
         echo "Running staging deployment tasks..."
         # Add staging-specific commands here
-        cd /home5/$username/testapiserver.systematicdefence.tech/
+        cd /home5/$FASTCOMET_USER/testapiserver.systematicdefence.tech/
         git pull origin main
        elif [ "$TARGET_ENV" = "dev" ]; then
         echo "Running dev deployment tasks..."
